@@ -18,8 +18,13 @@
 		},
 		{
 			name: 'Task Manager UI',
-			content: 'A simple drag and drop form task manager.',
+			content: 'A simple drag and drop task manager.',
 			href: '/drags',
+		},
+		{
+			name: 'Form builder UI',
+			content: 'A simple drag and drop form builder.',
+			href: '/formbuilder',
 		},
 	]);
 </script>

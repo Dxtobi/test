@@ -100,6 +100,6 @@
     </section>
 </section>
 
-<div class=" fixed left-0 top-0 min-h-screen w-full">
+<!-- <div class=" fixed left-0 top-0 min-h-screen w-full">
     <button class="absolute w-full h-full bg-[#0000004d] backdrop-blur-sm"></button>
-</div>
+</div> -->
