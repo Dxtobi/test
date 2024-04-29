@@ -69,8 +69,6 @@ export function draggable(node, data) {
 
 }
 
-
-
 /**
  * 
  * @param {HTMLElement} node 
@@ -150,6 +148,8 @@ export function draggable_form(node, data) {
     node.style.cursor = "grab";
 
 
+
+
     /**
      * @param {{ dataTransfer: { setData: (arg0: string, arg1: any) => void; }; target: { classList: { add: (arg0: any) => void; }; }; }} e
      */
@@ -159,8 +159,11 @@ export function draggable_form(node, data) {
 
     }
 
+    let draggedComponent = null; // Track the currently dragged component
+
+
     // @ts-ignore
-    function handle_ov_drag(e) {
+    function handle_drag_end(e) {
 
     }
 
@@ -176,8 +179,8 @@ export function draggable_form(node, data) {
 
     // @ts-ignore
     node.addEventListener('dragstart', handle_dragstart);
-    node.addEventListener('dragend', handle_ov_drag);
-    node.addEventListener('drop', handle_ov_drag);
+    node.addEventListener('dragend', handle_drag_end);
+    node.addEventListener('drop', handle_drag_end);
     node.addEventListener('drag', dragging);
 
 
@@ -191,11 +194,74 @@ export function draggable_form(node, data) {
         destroy() {
             // @ts-ignore
             node.removeEventListener("dragstart", handle_dragstart)
-            node.removeEventListener("dragend", handle_ov_drag)
-            node.removeEventListener('drop', handle_ov_drag);
+            node.removeEventListener("dragend", handle_drag_end)
+            node.removeEventListener('drop', handle_drag_end);
             node.removeEventListener('drag', dragging);
         }
 
     }
 
 }
+
+
+/**
+ * 
+ * @param {HTMLElement} node 
+ * @param {*} options 
+ */
+export function dropzone_form(node, options) {
+
+    let state = {
+        dropEffect: "move",
+        dragover_class: 'droppable',
+        ...options
+    }
+    // @ts-ignore
+    function handle_dragover_class(e) {
+        e.target.classList.add(state.dragover_class)
+    }
+    // @ts-ignore
+    function handle_dragleave_class(e) {
+        e.target.classList.remove(state.dragover_class)
+    }
+    // @ts-ignore
+    function handle_dragover(e) {
+        e.preventDefault();
+        e.dataTransfer.dropEffect = state.dropEffect;
+        //  handle_dragleave_class(e)
+    }
+
+    // @ts-ignore
+    function handle_drop(e) {
+        e.preventDefault();
+        const data = e.dataTransfer.getData("text/plain");
+        e.target.classList.remove(state.dragover_class)
+        state.on_dropzone(data, e);
+    }
+    node.addEventListener("dragenter", handle_dragover_class)
+    node.addEventListener("dragleave", handle_dragleave_class)
+    node.addEventListener("dragover", handle_dragover)
+    node.addEventListener("drop", handle_drop)
+
+
+    return {
+        // @ts-ignore
+        update(options) {
+            state = {
+                dropEffect: "move",
+                dragover_class: 'droppable',
+                ...options
+            }
+        },
+        destroy() {
+            node.removeEventListener("dragenter", handle_dragover_class)
+            node.removeEventListener("dragleave", handle_dragleave_class)
+            node.removeEventListener("dragover", handle_dragover)
+            node.removeEventListener("drop", handle_drop)
+        }
+    }
+
+
+
+}
+

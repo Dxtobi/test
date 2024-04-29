@@ -40,7 +40,7 @@
                              */
                             on_dropzone(card_id) {
                                 const card = data.cards.find((c) => c.id == card_id);
-                                console.log(card?.column, cols.id, card_id);
+                                //console.log(card?.column, cols.id, card_id);
                                 //@ts-ignore
                                 card.column = cols.id;
                                 data = data;

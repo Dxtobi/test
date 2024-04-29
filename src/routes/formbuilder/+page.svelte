@@ -1,165 +1,130 @@
 <script>
-    import { draggable_form } from '$lib/js/dnd';
-    import Layout from '../+layout.svelte';
+    // @ts-nocheck
 
-    let components = {
-        layouts: [
-            {
-                name: 'sections',
-                icon: 'fluent:poll-horizontal-16-regular',
-            },
-            {
-                name: 'table',
-                icon: 'mynaui:table',
-            },
-        ],
-        texts: [
-            {
-                name: 'line text',
-                icon: 'mingcute:text-line',
-            },
-            {
-                name: 'multiline',
-                icon: 'majesticons:text',
-            },
-            {
-                name: 'multiline',
-                icon: 'tabler:number-123',
-            },
-        ],
+    import Editor from './components/shared/Editor.svelte';
+    import Board from './components/shared/Board.svelte';
+    import SideBar from './components/shared/SideBar.svelte';
+    import { createEventDispatcher } from 'svelte';
+    import { all_comps } from '$lib/utils/current_comp_store';
 
-        multi_element: [
-            {
-                name: 'switch',
-                icon: 'iconoir:switch-on',
-            },
-            {
-                name: 'dropdown',
-                icon: 'radix-icons:dropdown-menu',
-            },
-            {
-                name: 'checkbox',
-                icon: '"mingcute:checkbox-fill',
-            },
-            {
-                name: 'checklist',
-                icon: 'line-md:check-list-3',
-            },
-            {
-                name: 'profile',
-                icon: 'carbon:user-profile-alt',
-            },
-        ],
-        others: [
-            {
-                name: 'pole',
-                icon: 'fluent:poll-32-filled',
-            },
-            {
-                name: 'Test',
-                icon: 'healthicons:i-exam-multiple-choice-outline',
-            },
-        ],
-        input: [
-            {
-                name: 'button',
-                icon: 'teenyicons:button-outline',
-            },
-            {
-                name: 'text',
-                icon: 'streamline:input-box',
-            },
-            {
-                name: 'big text',
-                icon: 'bi:textarea-resize',
-            },
-            {
-                name: 'date',
-                icon: 'bi:calendar-date',
-            },
-            {
-                name: 'date time',
-                icon: 'fluent-mdl2:date-time',
-            },
-        ],
-    };
+    // @ts-ignore
+    const dispatch = createEventDispatcher();
+    /**
+     * @type {HTMLElement}
+     */
+    let convert_to_html;
+    /**
+     * @type {any}
+     */
+    let added_comp = $derived($all_comps);
+    let dragging_comp = $state(null);
+    let dragging_comp_on_board = $state(null);
+    let active_element = $state({});
+
+    //SET THE CURRENT ELEMENT THAT IS BEING DRAGGED FROM SIDE BARE
+    // @ts-ignore
+    function dragging_side_bar_icon(e) {
+        e.preventDefault();
+        dragging_comp = e.detail;
+        dragging_comp.state.id = '';
+    }
+
+    // @ts-ignore
+    function dragging_item_that_is_already_in_board(e) {
+        e.preventDefault();
+    }
+
+    async function call_on_dropped(e, ref) {
+        e.preventDefault();
+        //REMOVE THE CURRENT ITEM BEING DRAG
+        // @ts-ignore
+        all_comps.element_removed(dragging_comp_on_board);
+
+        //CREATE ID IN THE ON DROP
+        // dragging_comp.state.id = dropped_id;
+
+        //IF USER IS DROPPING ON TOP OF ANOTHER ELEMENT ADD THE NEW ONW ABOVE
+        if (e.target.getAttribute('data-type') === 'component') {
+            //GET THE ID
+            const idx = e.target.getAttribute('id');
+
+            //USE THE ID TO FIND THE CURRENT ELEMENT
+            // @ts-ignore
+            const idxx = $all_comps.find((ev) => ev.tag === idx);
+            //GET THE INDEX
+            const indexDrop = $all_comps.indexOf(idxx);
+
+            //AD THE NEW COMPONENT ABOVE THE HOVERED COMPONENT
+            all_comps.new_element_dropped_on_a_specific_location(indexDrop, dragging_comp);
+
+            dragging_comp = null;
+        } else {
+            all_comps.new_element_dropped(dragging_comp);
+            dragging_comp = null;
+        }
+
+        console.log($all_comps);
+    }
+
+    // @ts-ignore
+    function handle_board_hovering(e) {
+        dragging_comp = e.detail;
+        dragging_comp_on_board = e.detail.tag;
+    }
+
+    // @ts-ignore
+    function call_when_component_on_focus(e) {
+        console.log(e);
+        active_element = e;
+    }
+
+    function save_progress(e) {
+        console.log(e);
+    }
+
+    let active_btn = $state('Build');
 </script>
 
-<section class="w-full bg-green">
-    <aside class="flex flex-col p-4 w-[20%] border-r">
-        <div class="mt-4">
-            <h3 class="my-4 text-gray-500 font-bold">Layout section</h3>
-            <div class=" flex flex-wrap gap-2">
-                {#each components.layouts as lt}
-                    <button
-                        class="border rounded-md flex gap-2 pl-2 pr-4 p-1 items-center"
-                        use:draggable_form={lt.name}
-                    >
-                        <iconify-icon class="" icon={lt.icon}></iconify-icon>
-                        <span class="  capitalize">{lt.name}</span>
-                    </button>
-                {/each}
-            </div>
-        </div>
+<header class=" body-font top-0 left-0 w-full">
+    <div class=" mx-auto w-full flex flex-wrap p-5 items-center justify-between shadow-sm">
+        <a href="/" class="flex title-font items-center text-gray-500 mb-4 md:mb-0 font-bold text-2xl">
+            <img src="/SVG/logo.webp" alt="" class=" w-[100px] object-contain" />
+        </a>
+        <div class="flex gap-4 p-1 bg-gray-200 rounded">
+            <button
+                class={`rounded  px-6 py-1 ${active_btn === 'Build' && 'bg-white text-black shadow'}`}
+                onclick={() => {
+                    active_btn = 'Build';
+                }}>Build</button
+            >
 
-        <div class="mt-4">
-            <h3 class="my-4 text-gray-500 font-bold">Texts</h3>
-            <div class=" flex flex-wrap gap-2">
-                {#each components.texts as lt}
-                    <button
-                        class="border rounded-md flex gap-2 pl-2 pr-4 p-1 items-center"
-                        use:draggable_form={lt.name}
-                    >
-                        <iconify-icon class="" icon={lt.icon}></iconify-icon>
-                        <span class="  capitalize">{lt.name}</span>
-                    </button>
-                {/each}
-            </div>
+            <button
+                class={`rounded  px-6 py-1 ${active_btn === 'Functions' && 'bg-white text-black shadow'}`}
+                onclick={() => {
+                    active_btn = 'Functions';
+                }}>Functions</button
+            >
         </div>
-
-        <div class="mt-4">
-            <h3 class="my-4 text-gray-500 font-bold">Inputs</h3>
-            <div class=" flex flex-wrap gap-2">
-                {#each components.input as lt}
-                    <button
-                        class="border rounded-md flex gap-2 pl-2 pr-4 p-1 items-center"
-                        use:draggable_form={lt.name}
-                    >
-                        <iconify-icon class="" icon={lt.icon}></iconify-icon>
-                        <span class="  capitalize">{lt.name}</span>
-                    </button>
-                {/each}
-            </div>
-        </div>
-
-        <div class="mt-4">
-            <h3 class="my-4 text-gray-500 font-bold">Multi Element</h3>
-            <div class=" flex flex-wrap gap-2">
-                {#each components.multi_element as lt}
-                    <button
-                        class="border rounded-md flex gap-2 pl-2 pr-4 p-1 items-center"
-                        use:draggable_form={lt.name}
-                    >
-                        <iconify-icon class="" icon={lt.icon}></iconify-icon>
-                        <span class="  capitalize">{lt.name}</span>
-                    </button>
-                {/each}
-            </div>
-        </div>
-
-        <div class="mt-4">
-            <h3 class="my-4 text-gray-500 font-bold">Other</h3>
-            <div class=" flex flex-wrap gap-2">
-                {#each components.others as lt}
-                    <button
-                        class="border rounded-md flex gap-2 pl-2 pr-4 p-1 items-center"
-                        use:draggable_form={lt.name}
-                    >
-                        <iconify-icon class="" icon={lt.icon}></iconify-icon>
-                        <span class="  capitalize">{lt.name}</span>
-                    </button>
-                {/each}
-            </div>
-        </div>
-    </aside>
+        <nav class=" hidden md:flex flex-wrap items-center text-base justify-center gap-4">
+            <small>Changes saved 2min ago </small><a
+                href="/"
+                class="mr-5 hover:text-gray-900 px-4 rounded bg-blue-200 text-blue-500 flex items-center gap-3"
+                >Preview <iconify-icon icon="heroicons:eye-16-solid"></iconify-icon></a
+            >
+        </nav>
+    </div>
+</header>
+<section class="w-full bg-green flex gap-4">
+    <SideBar dragEvent_={dragging_side_bar_icon}></SideBar>
+    <section class="w-[60%] min-h-screen p-4">
+        <Board
+            {added_comp}
+            {call_on_dropped}
+            {dragging_item_that_is_already_in_board}
+            {call_when_component_on_focus}
+            on:dragEventOnBoard={handle_board_hovering}
+            {save_progress}
+        ></Board>
+    </section>
+    <Editor {active_element} />
 </section>

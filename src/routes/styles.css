@@ -159,3 +159,23 @@ main {
 	font-weight: 700;
 	font-style: normal;
 }
+
+.component:hover {
+	/*border: 1px solid #ff9807;
+	*/
+	transform: scale(1.001);
+	border-width: 1px;
+	border-color: #ff9807 !important;
+	-webkit-transform: scale(1.001);
+	-moz-transform: scale(1.001);
+	-ms-transform: scale(1.001);
+	-o-transform: scale(1.001);
+}
+
+/* .component * {
+	pointer-events: none;
+} */
+
+.component {
+	cursor: grabbing;
+}
