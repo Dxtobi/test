@@ -1,16 +1,15 @@
 <script>
-	import Header from './Header.svelte';
-	import './styles.css';
-	import 'iconify-icon';
-	import '@xyflow/svelte/dist/style.css';
+  import Header from "./Header.svelte";
+  import "./styles.css";
+  import "iconify-icon";
 </script>
 
 <div class="app">
-	<Header />
+  <Header />
 
-	<main>
-		<slot />
-	</main>
+  <main>
+    <slot />
+  </main>
 
-	<footer></footer>
+  <footer></footer>
 </div>
