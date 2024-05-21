@@ -4,15 +4,14 @@
     import Editor from './components/shared/Editor.svelte';
     import Board from './components/shared/Board.svelte';
     import SideBar from './components/shared/SideBar.svelte';
-    import { createEventDispatcher } from 'svelte';
+    // import { createEventDispatcher } from 'svelte';
     import { all_comps } from '$lib/utils/current_comp_store';
+    import Preview from './components/preview/preview.svelte';
 
-    // @ts-ignore
-    const dispatch = createEventDispatcher();
     /**
      * @type {HTMLElement}
      */
-    let convert_to_html;
+    let convert_to_html = $state(undefined);
     /**
      * @type {any}
      */
@@ -22,48 +21,47 @@
     let active_element = $state({});
 
     //SET THE CURRENT ELEMENT THAT IS BEING DRAGGED FROM SIDE BARE
-    // @ts-ignore
     function dragging_side_bar_icon(e) {
         e.preventDefault();
         dragging_comp = e.detail;
         dragging_comp.state.id = '';
     }
 
-    // @ts-ignore
     function dragging_item_that_is_already_in_board(e) {
         e.preventDefault();
     }
 
     async function call_on_dropped(e, ref) {
         e.preventDefault();
+        //CHECK IF ITS BEEN DROPPED ON A SECTION
+        if (e.target.getAttribute('data-type') === 'droppable') {
+            //IF YES:
+            //GET THE ID / TAG:
+            const idx = e.target.getAttribute('id');
+
+            all_comps.add_to_section(idx, dragging_comp);
+
+            return;
+        }
         //REMOVE THE CURRENT ITEM BEING DRAG
-        // @ts-ignore
         all_comps.element_removed(dragging_comp_on_board);
-
-        //CREATE ID IN THE ON DROP
-        // dragging_comp.state.id = dropped_id;
-
         //IF USER IS DROPPING ON TOP OF ANOTHER ELEMENT ADD THE NEW ONW ABOVE
         if (e.target.getAttribute('data-type') === 'component') {
             //GET THE ID
             const idx = e.target.getAttribute('id');
-
             //USE THE ID TO FIND THE CURRENT ELEMENT
-            // @ts-ignore
             const idxx = $all_comps.find((ev) => ev.tag === idx);
             //GET THE INDEX
             const indexDrop = $all_comps.indexOf(idxx);
-
             //AD THE NEW COMPONENT ABOVE THE HOVERED COMPONENT
             all_comps.new_element_dropped_on_a_specific_location(indexDrop, dragging_comp);
-
             dragging_comp = null;
         } else {
             all_comps.new_element_dropped(dragging_comp);
             dragging_comp = null;
         }
 
-        console.log($all_comps);
+        // console.log($all_comps);
     }
 
     // @ts-ignore
@@ -74,12 +72,13 @@
 
     // @ts-ignore
     function call_when_component_on_focus(e) {
-        console.log(e);
+        // console.log(e);
         active_element = e;
     }
 
     function save_progress(e) {
         console.log(e);
+        convert_to_html = e;
     }
 
     let active_btn = $state('Build');
@@ -128,3 +127,10 @@
     </section>
     <Editor {active_element} />
 </section>
+
+{#if convert_to_html}
+    <div class="fixed w-full min-h-screen left-0 top-0 p-4 bg-[#ffffff58] backdrop-blur">
+        <button class=" text-2xl" on:click={() => (convert_to_html = undefined)}>&times;</button>
+        <Preview htm={convert_to_html} />
+    </div>
+{/if}

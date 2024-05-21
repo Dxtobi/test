@@ -56,6 +56,7 @@
         class="w-full h-full p-8 flex flex-col gap-2 border"
         role="region"
         bind:this={ref}
+        data-type="board"
         on:dragenter={call_drag_enter}
         on:dragleave={call_drag_leave}
         on:dragover={call_drag_over}
@@ -63,49 +64,53 @@
         class:ring={isDraggedOver}
         class:ring-yellow-400={isDraggedOver}
     >
-        {#each added_comp as data}
-            <!-- SECTIONS -->
-            {#if data.name == 'Sections'}
-                <Sections {dispatch} {call_when_component_on_focus} {data} />
-            {/if}
+        {#if added_comp}
+            {@const added_comp_filtered = added_comp.filter((/** @type {{ section_tag: any; }} */ e) => !e.section_tag)}
+            <!-- {@const section_components = added_comp.filter((e) => e.section_tag != undefined)} -->
+            {#each added_comp_filtered as data}
+                <!-- SECTIONS -->
+                {#if data.name == 'Sections'}
+                    <Sections {dispatch} {call_when_component_on_focus} {data} section_components={added_comp} />
+                {/if}
 
-            {#if data.name == 'Label'}
-                <Small {dispatch} {call_when_component_on_focus} {data} />
-            {/if}
+                {#if data.name == 'Label'}
+                    <Small {dispatch} {call_when_component_on_focus} {data} />
+                {/if}
 
-            <!-- TEXTS -->
-            {#if data.name == 'Text'}
-                <Text {dispatch} {call_when_component_on_focus} {data} />
-            {/if}
-            {#if data.name == 'Multiline'}
-                <Multiline {dispatch} {call_when_component_on_focus} {data} />
-            {/if}
-            {#if data.name == 'Phone'}
-                <Phone {dispatch} {call_when_component_on_focus} {data} />
-            {/if}
-            {#if data.name == 'Number'}
-                <Number {dispatch} {call_when_component_on_focus} {data} />
-            {/if}
-            {#if data.name == 'Switch'}
-                <Switch {dispatch} {call_when_component_on_focus} {data} />
-            {/if}
+                <!-- TEXTS -->
+                {#if data.name == 'Text'}
+                    <Text {dispatch} {call_when_component_on_focus} {data} />
+                {/if}
+                {#if data.name == 'Multiline'}
+                    <Multiline {dispatch} {call_when_component_on_focus} {data} />
+                {/if}
+                {#if data.name == 'Phone'}
+                    <Phone {dispatch} {call_when_component_on_focus} {data} />
+                {/if}
+                {#if data.name == 'Number'}
+                    <Number {dispatch} {call_when_component_on_focus} {data} />
+                {/if}
+                {#if data.name == 'Switch'}
+                    <Switch {dispatch} {call_when_component_on_focus} {data} />
+                {/if}
 
-            <!-- INPUT -->
-            {#if data.name == 'Date'}
-                <Input {dispatch} {call_when_component_on_focus} {data} />
-            {/if}
-            {#if data.name == 'Button'}
-                <Button {dispatch} {call_when_component_on_focus} {data} />
-            {/if}
-            {#if data.name == 'Input'}
-                <Input {dispatch} {call_when_component_on_focus} {data} />
-            {/if}
-            {#if data.name == 'Textarea'}
-                <Textarea {dispatch} {call_when_component_on_focus} {data} />
-            {/if}
+                <!-- INPUT -->
+                {#if data.name == 'Date'}
+                    <Input {dispatch} {call_when_component_on_focus} {data} />
+                {/if}
+                {#if data.name == 'Button'}
+                    <Button {dispatch} {call_when_component_on_focus} {data} />
+                {/if}
+                {#if data.name == 'Input'}
+                    <Input {dispatch} {call_when_component_on_focus} {data} />
+                {/if}
+                {#if data.name == 'Textarea'}
+                    <Textarea {dispatch} {call_when_component_on_focus} {data} />
+                {/if}
 
-            <!-- <Comp.comp {handle_} id={'id'} /> -->
-        {/each}
+                <!-- <Comp.comp {handle_} id={'id'} /> -->
+            {/each}
+        {/if}
     </div>
 </div>
 <button on:click={() => save_progress(ref)} class=" bg-slate-900 text-white rounded w-fit p-5 fixed bottom-6 right-3"

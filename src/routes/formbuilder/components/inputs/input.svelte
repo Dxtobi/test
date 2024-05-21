@@ -36,7 +36,7 @@
 <div
     style={styles_}
     {...all.data.state}
-    class="component"
+    class="component hover:z-30"
     id={tag}
     tabindex="-1"
     role="button"
@@ -50,10 +50,6 @@
     data-type="component"
 >
     <label for={all.data.state.name} class=" pointer-events-none">
-        <input
-            {...all.data.state}
-            style=" width:100%; padding:2px;  background:none  "
-            class=" pointer-events-none"
-        />
+        <input {...all.data.state} style=" width:100%; padding:2px;  background:none  " class=" pointer-events-none" />
     </label>
 </div>

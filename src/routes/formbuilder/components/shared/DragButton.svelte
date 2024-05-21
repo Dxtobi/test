@@ -21,6 +21,7 @@
     let followMouseElement;
 
     function handleDragStart(event) {
+        console.log(lt.name);
         if (followMouseElement) {
             followMouseElement.classList.add('show');
         }
@@ -42,7 +43,7 @@
 <div class="relative">
     <button
         class="border rounded-md flex gap-2 pl-2 pr-4 p-1 items-center cursor-grab grabable relative"
-        draggable="true"
+        draggable={lt.name === 'Sections' ? 'false' : 'true'}
         on:drag={callDisp}
         on:dragstart={handleDragStart}
         on:dragover={handleDragOver}

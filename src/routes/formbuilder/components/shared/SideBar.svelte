@@ -7,11 +7,9 @@
 
     let { dragEvent_ } = $props();
 
-    $effect(() => {
-        setInterval(() => {
-            console.log($components.texts[0].state.id);
-        }, 4000);
-    });
+    // $effect(() => {
+
+    // });
 </script>
 
 <aside class="flex flex-col p-4 w-[20%] border-r">

@@ -1,5 +1,8 @@
 <script>
 	import { tiltCard } from '$lib/js/card_hover';
+	import Audio from '../components/Audio.svelte';
+	import Post from '../components/Post.svelte';
+	import Select from '../components/Select.svelte';
 
 	$effect(() => {
 		tiltCard('.tilt', { max: 25, perspective: 1000, scale: 1, speed: 150, easing: 'ease-in' });
@@ -27,6 +30,11 @@
 			href: '/formbuilder',
 		},
 	]);
+
+	let input_values = $state({
+		select_value: '',
+		options: ['Others', 'Angular', 'React', 'Vue', 'Svelte'],
+	});
 </script>
 
 <svelte:head>
@@ -54,12 +62,47 @@
 	</div>
 </header>
 <section class=" bg-gradient-to-tl main m-auto w-full">
-	<section class="min-h-screen w-full grid place-content-center overflow-visible">
-		<div
-			class="text-[3rem] md:text-[4rem] lg:text-[5rem] flex flex-col md:p-6 justify-center relative md:h-[50vh] h-fit p-4"
-		>
-			<div class="w-full h-full top-0 left-0 absolute p-6 transition tilt border-4"></div>
+	<section
+		class="min-h-screen w-full flex overflow-visible md:justify-between items-center md:px-16 px-4 gap-8 flex-col md:flex-row pt-28 md:pt-2"
+	>
+		<div class="w-full md:w-1/2 font-bold text-5xl grid place-content-center">
+			<h1>Custom components Svelte & HTML</h1>
 		</div>
+		<div class="flex flex-wrap w-full md:w-1/2 gap-4 justify-between">
+			{#each [1, 1, 1, 1, 1, 1, 1, 1] as _, i}
+				{#if i % 2 === 0}
+					<div class="flex justify-between gap-4 h-fit p-2 items-center shadow-md rounded-full">
+						<img src="/avatars/av1.jpg" alt="" class="rounded-full w-10 h-10 object-cover shadow-md" />
+						<div>Components</div>
+					</div>
+				{:else if i % 3 === 0}
+					<div
+						class="flex justify-between gap-4 bg-blue-400 text-white h-fit p-2 items-center shadow-md rounded-full"
+					>
+						<img src="/avatars/av1.jpg" alt="" class="rounded-full w-10 h-10 object-cover" />
+						<div>Components</div>
+					</div>
+				{:else}
+					<div
+						class="flex justify-between gap-4 bg-blue-500 text-white h-fit p-2 items-center shadow-md rounded-full"
+					>
+						<img src="/avatars/av1.jpg" alt="" class="rounded-full w-10 h-10 object-cover" />
+						<div>Components</div>
+					</div>
+				{/if}
+			{/each}
+		</div>
+	</section>
+	<section class="min-h-screen w-full flex flex-flow overflow-visible justify-between items-center px-16 gap-8">
+		<Select
+			options={input_values.options}
+			callBackFun={(/** @type {any} */ e) => {
+				input_values.select_value = e;
+				console.log(e);
+			}}
+			value={input_values.select_value}
+		/><Audio />
+		<Post />
 	</section>
 
 	<section class="min-h-screen w-full grid place-content-center overflow-visible" id="projects">
@@ -102,14 +145,6 @@
 </section>
 
 <style>
-	section {
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		align-items: center;
-		flex: 0.6;
-	}
-
 	h1 {
 		width: 100%;
 	}

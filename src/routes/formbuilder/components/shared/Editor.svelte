@@ -42,7 +42,7 @@
                     />
                 {/if}
                 {#each stylesArray as [key, value], i}
-                    {console.log(stylesArray[i][1])}
+                    <!-- {console.log(stylesArray[i][1])} -->
                     <label for={key}>{key.replace(/_/g, ' ')}</label>
                     {#if key === 'background_color' || key === 'border_color' || key === 'color'}
                         <input type="color" id={key} on:input={(e) => setStyles(e, key)} class=" mb-1" {value} />

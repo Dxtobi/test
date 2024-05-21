@@ -147,10 +147,23 @@ function components(initValue = [{}]) {
         set(new_value)
     }
 
-    return { update_value, subscribe, update_style, new_element_dropped, reset, element_removed, new_element_dropped_on_a_specific_location, innerVal }
+    // @ts-ignore
+    function add_to_section(dropped_on, element) {
+        update(prev_state => {
+            element.tag = Math.random().toString(36).substr(2, 10)
+            element.section_tag = dropped_on
+            //element.state.id = Math.random().toString(36).substr(2, 10) + '-' + Date.now() + '-' + element.name
+            prev_state.push(element)
+            //console.log(prev_state.filter((/** @type {{ state: { id: string; }; }} */ item) => item.state.id !== element.state.id))
+            return prev_state
+        })
 
+
+
+    }
+    return { add_to_section, update_value, subscribe, update_style, new_element_dropped, reset, element_removed, new_element_dropped_on_a_specific_location, innerVal }
 }
-
+// @ts-ignore
 export const text = current_store({
     id: '',
     component: '',
@@ -165,4 +178,5 @@ export const text = current_store({
     }
 })
 
+// @ts-ignore
 export const all_comps = components([])
