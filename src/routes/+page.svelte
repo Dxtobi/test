@@ -1,8 +1,13 @@
 <script>
+  import SpanSwitch from "../components/SpanSwitch.svelte";
+
+  import Cart from "../components/Cart.svelte";
+
   import { tiltCard } from "$lib/js/card_hover";
-  import Audio from "../components/Audio.svelte";
-  import Post from "../components/Post.svelte";
   import Select from "../components/Select.svelte";
+  import Mobile from "../components/Mobile.svelte";
+  import Post from "../components/Post.svelte";
+  import Header from "./Header.svelte";
 
   $effect(() => {
     tiltCard(".tilt", {
@@ -49,84 +54,39 @@
   <meta name="description" content="" />
 </svelte:head>
 
-<header
-  id="header"
-  class="flex fixed w-full justify-between items-center md:w-[50%] m-auto md:rounded-full p-2 left-0 top-6 right-0 border px-6 z-50 backdrop-blur-md"
->
-  <div class="flex gap-2 items-center">
-    <a href="#header">Home</a>
-    <span class="block w-1 h-1 rounded-full bg-blue-600"></span>
-    <a href="#projects">About</a>
-  </div>
-  <div class="flex font-bold items-center">
-    <div class="relative flex font-bold text-3xl items-center gap-2">
-      UI<span class="text-blue-600 text-[4rem]">/</span>UX
-    </div>
-  </div>
-  <div class="flex gap-2 items-center">
-    <a href="#projects">Projects</a>
-    <span class="block w-1 h-1 rounded-full bg-blue-600"></span>
-    <a href="#content">Contact</a>
-  </div>
-</header>
-<section class=" bg-gradient-to-tl main m-auto w-full">
+<Header/>
+<section class=" bg-gradient-to-tl main m-auto w-full alternative_bg_box">
   <section
     class="min-h-screen w-full flex overflow-visible md:justify-between items-center md:px-16 px-4 gap-8 flex-col md:flex-row pt-28 md:pt-2"
   >
-    <div class="w-full md:w-1/2 font-bold text-5xl grid place-content-center">
-      <h1>Custom components Svelte & HTML</h1>
+    <div class="w-full md:w-1/2 grid place-content-center">
+      <h1 class=" font-bold text-5xl">
+        Custom components Svelte <span class=" text-[4rem] text-red-500">
+          &</span
+        >
+        HTML<span class=" text-[4rem] text-red-500">.</span>
+      </h1>
+      <br />
+      <p class=" text-3xl">
+        This are some useful components used in my past projects.
+      </p>
     </div>
-    <div class="flex flex-wrap w-full md:w-1/2 gap-4 justify-between">
-      {#each [1, 1, 1, 1, 1, 1, 1, 1] as _, i}
-        {#if i % 2 === 0}
-          <div
-            class="flex justify-between gap-4 h-fit p-2 items-center shadow-md rounded-full"
-          >
-            <img
-              src="/avatars/av1.jpg"
-              alt=""
-              class="rounded-full w-10 h-10 object-cover shadow-md"
-            />
-            <div>Components</div>
-          </div>
-        {:else if i % 3 === 0}
-          <div
-            class="flex justify-between gap-4 bg-blue-400 text-white h-fit p-2 items-center shadow-md rounded-full"
-          >
-            <img
-              src="/avatars/av1.jpg"
-              alt=""
-              class="rounded-full w-10 h-10 object-cover"
-            />
-            <div>Components</div>
-          </div>
-        {:else}
-          <div
-            class="flex justify-between gap-4 bg-blue-500 text-white h-fit p-2 items-center shadow-md rounded-full"
-          >
-            <img
-              src="/avatars/av1.jpg"
-              alt=""
-              class="rounded-full w-10 h-10 object-cover"
-            />
-            <div>Components</div>
-          </div>
-        {/if}
-      {/each}
+    <div
+      class="flex flex-col w-full md:w-1/2 gap-4 justify-between relative min-h-[50vh]"
+    >
+      <Select
+        options={input_values.options}
+        callBackFun={(/** @type {any} */ e) => {
+          input_values.select_value = e;
+          console.log(e);
+        }}
+        value={input_values.select_value}
+      />
+      <Post />
+      <Cart></Cart>
+      <SpanSwitch></SpanSwitch>
+      <Mobile></Mobile>
     </div>
-  </section>
-  <section
-    class="min-h-screen w-full flex flex-flow overflow-visible justify-between items-center px-16 gap-8"
-  >
-    <Select
-      options={input_values.options}
-      callBackFun={(/** @type {any} */ e) => {
-        input_values.select_value = e;
-        console.log(e);
-      }}
-      value={input_values.select_value}
-    /><Audio />
-    <Post />
   </section>
 
   <section
@@ -134,7 +94,7 @@
     id="projects"
   >
     <div class="p-3 md:p-6 w-full md:w-11/12 m-auto" id="content">
-      <p class="text-5xl font-bold md:w-[70%] w-full">
+      <p class="text-2xl font-bold md:w-[70%] w-full">
         Still confuse<span class="text-blue-600">?</span>
         <span class="text-gray-400"> This is just a template website</span>
         for some of my
@@ -150,17 +110,12 @@
       <div class="grid grid-cols-1 md:grid-cols-3 gap-10 mt-10">
         {#each pros as pro, i}
           <div
-            class="min-h-[40vh] relative flex flex-col justify-between p-4 border rounded-md text-white"
+            class="min-h-[20vh] relative flex flex-col justify-between p-4 border rounded-md text-white bg-neutral-900"
           >
-            <img
-              src="/SVG/Asset2.svg"
-              alt=""
-              class="w-full h-full absolute -z-10 left-0 top-0 object-cover bg-blue-500 rounded-md"
-            />
             <div class="px-4 py-1 w-fit rounded-full border">{pro.name}</div>
 
-            <div class="flex justify-between items-end h-fit gap-10 w-[80%]">
-              <p class=" text-3xl font-bold">{pro.content}</p>
+            <div class="flex justify-between items-end h-fit gap-10 w-[60%]">
+              <p class=" font-bold">{pro.content}</p>
             </div>
             <a
               href={pro.href}

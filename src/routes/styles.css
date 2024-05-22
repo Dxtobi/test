@@ -179,3 +179,23 @@ main {
 .component {
 	cursor: grabbing;
 }
+
+.alternative_bg_box {
+    position: absolute;
+    background: transparent;
+    background-image: linear-gradient(to right, #efefef 1px, transparent 1px),
+      linear-gradient(to bottom, #efefef 1px, transparent 1px);
+    background-size: 50px 50px;
+    z-index: -2;
+    background-attachment: fixed;
+  }
+  .alternative_bg_box_phone {
+   
+    background: transparent;
+    
+    background-repeat: no-repeat;
+    z-index: -2;
+	background-position: center;
+	color: white;
+    /* background-attachment: fixed; */
+  }

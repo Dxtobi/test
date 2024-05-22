@@ -4,7 +4,7 @@
   import "iconify-icon";
 </script>
 
-<div class="app">
+<div class="app ">
   <Header />
 
   <main>
