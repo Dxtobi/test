@@ -8,6 +8,7 @@
   import Mobile from "../components/Mobile.svelte";
   import Post from "../components/Post.svelte";
   import Header from "./Header.svelte";
+  import Sidebar from "../components/Sidebar.svelte";
 
   $effect(() => {
     tiltCard(".tilt", {
@@ -42,7 +43,6 @@
       href: "/formbuilder",
     },
   ]);
-
   let input_values = $state({
     select_value: "",
     options: ["Others", "Angular", "React", "Vue", "Svelte"],
@@ -55,9 +55,11 @@
 </svelte:head>
 
 <Header />
-<section class=" bg-gradient-to-tl main m-auto w-full alternative_bg_box">
+<section
+  class=" bg-gradient-to-tl main m-auto w-full alternative_bg_box md:px-20 relative"
+>
   <section
-    class="min-h-screen w-full flex overflow-visible md:justify-between items-center md:px-16 px-4 gap-8 flex-col md:flex-row pt-28 md:pt-2"
+    class="min-h-screen w-full flex overflow-visible md:justify-between items-center md:px-16 px-4 gap-8 flex-col md:flex-row pt-28 md:pt-2 relative z-50"
   >
     <div class="w-full md:w-1/2 grid place-content-center">
       <h1 class=" font-bold text-5xl">
@@ -90,18 +92,24 @@
     <div
       class="flex flex-col w-full md:w-1/2 gap-4 justify-between relative min-h-[50vh]"
     >
-      <Select
-        options={input_values.options}
-        callBackFun={(/** @type {any} */ e) => {
-          input_values.select_value = e;
-          console.log(e);
-        }}
-        value={input_values.select_value}
-      />
+      <div class="md:absolute right-0 bottom-[6%] z-50">
+        <Select
+          options={input_values.options}
+          callBackFun={(/** @type {any} */ e) => {
+            input_values.select_value = e;
+            console.log(e);
+          }}
+          value={input_values.select_value}
+        />
+      </div>
+
       <Post />
       <Cart></Cart>
       <SpanSwitch></SpanSwitch>
       <Mobile></Mobile>
+      <div class="fixed left-0 top-0">
+        <Sidebar />
+      </div>
     </div>
   </section>
 

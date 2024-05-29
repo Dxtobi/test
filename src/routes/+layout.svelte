@@ -4,8 +4,8 @@
   import "iconify-icon";
 </script>
 
-<div class="app ">
-  <Header />
+<div class="app">
+  <!-- <Header /> -->
 
   <main>
     <slot />
