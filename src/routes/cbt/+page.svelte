@@ -55,7 +55,7 @@
       <br />
       <div class="w-fit">
         <a
-          href="/"
+          href="/cbt/exam"
           class="flex gap-3 items-center text-neutral-50 px-6 py-2 rounded-full bg-gradient-to-tr from-[#ffc126] to-[#ffac31]"
           >Get Started <span>
             <svg

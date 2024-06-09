@@ -42,6 +42,16 @@
       content: "A simple drag and drop form builder.",
       href: "/formbuilder",
     },
+    {
+      name: "CBT Landing Page",
+      content: "A landing page for a saas cbt website.",
+      href: "/cbt",
+    },
+    {
+      name: "SVG TEST",
+      content: "An svg test site",
+      href: "/svgs",
+    },
   ]);
   let input_values = $state({
     select_value: "",

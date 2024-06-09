@@ -41,7 +41,9 @@
   }
 </script>
 
-<section class="min-h-screen grid place-content-center p-4">
+<section
+  class="min-h-screen grid place-content-center p-4 w-full md:w-[60%] m-auto"
+>
   {#if !hasSubmitted}
     <div>
       <h2 class="p-3 rounded-lg bg-neutral-900 text-neutral-50 my-4">
