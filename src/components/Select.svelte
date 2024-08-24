@@ -15,7 +15,7 @@
   let active = $state(false);
 </script>
 
-<div class="flex-col flex gap-3 shadow-xl backdrop-blur-md bg-[#ffffff8c]">
+<div class="flex-col flex gap-3 shadow-xl backdrop-blur-md bg-[#cea6a68c]">
   <div class="relative">
     <div
       class="border rounded px-4 py-1 relative flex items-center cursor-pointer justify-between"

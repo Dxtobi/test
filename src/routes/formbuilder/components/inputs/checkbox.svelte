@@ -1,7 +1,7 @@
 <script>
   // @ts-nocheck
   let { ...all } = $props();
-
+  import { is_draggable } from "$lib/utils/current_comp_store";
   // let styles_option = $derived(all.lt.props.data);
 
   // // @ts-ignore
@@ -16,9 +16,11 @@
       // @ts-ignore
       all.call_when_component_on_focus({
         id: tag,
-        component: "Number",
+        component: "Checkbox",
         styles: all.data.state.styles,
         value: all.data.state.value,
+        name: all.data.state.name,
+        placeholder: all.data.state.placeholder,
       });
     });
     styles_ = `
@@ -29,31 +31,31 @@
         padding: ${all.data.state.styles.padding};
         color: ${all.data.state.styles.color};
         width: ${all.data.state.styles.width};
+        margin:${all.data.state.styles.margin};
         `;
   });
 </script>
 
-<div
+<label
+  for={all.data.state.name}
   style={styles_}
   {...all.data.state}
-  class="component"
+  class={all.draggable && "component hover:z-30"}
   id={tag}
-  tabindex="-1"
-  role="button"
-  type="button"
   draggable={all.draggable}
   on:drag={() => all.dispatch("dragEventOnBoard", { ...all.data })}
   on:dragenter={() => (drag_enter = true)}
   on:dragleave={() => (drag_enter = false)}
-  class:border-t={drag_enter}
-  class:border-t-blue-400={drag_enter}
+  class:border-t={drag_enter && all.draggable}
+  class:border-t-blue-400={drag_enter && all.draggable}
   data-type="component"
 >
-  <label for={all.data.state.name} class=" pointer-events-none">
-    <input
-      {...all.data.state}
-      style=" width:100%; padding:2px;  background:none  "
-      class=" pointer-events-none"
-    />
-  </label>
-</div>
+  <input
+    {...all.data.state}
+    class=" "
+    disabled="false"
+    value={all.data.state.value}
+    
+  />
+  <span>{all.data.state.styles.label}</span>
+</label>

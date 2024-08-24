@@ -1,29 +1,31 @@
 <script>
-    // @ts-nocheck
-    let { ...all } = $props();
+  // @ts-nocheck
+  import { is_draggable } from "$lib/utils/current_comp_store";
 
-    // let styles_option = $derived(all.lt.props.data);
+  let { ...all } = $props();
 
-    // // @ts-ignore
-    let styles_ = $state(``);
-    let drag_enter = $state(false);
+  // let styles_option = $derived(all.lt.props.data);
 
-    // const { styles, value } = all.data.state;
-    const { tag } = all.data;
-    $effect(() => {
-        // console.log(all.data);
-        // @ts-ignore
-        document.getElementById(tag).addEventListener('click', (e) => {
-            // @ts-ignore
-            all.call_when_component_on_focus({
-                id: tag,
-                component: 'Multiline',
-                styles: all.data.state.styles,
-                value: all.data.state.value,
-            });
-        });
+  // // @ts-ignore
+  let styles_ = $state(``);
+  let drag_enter = $state(false);
 
-        styles_ = `
+  // const { styles, value } = all.data.state;
+  const { tag } = all.data;
+  $effect(() => {
+    // console.log(all.data);
+    // @ts-ignore
+    document.getElementById(tag).addEventListener("click", (e) => {
+      // @ts-ignore
+      all.call_when_component_on_focus({
+        id: tag,
+        component: "Multiline",
+        styles: all.data.state.styles,
+        value: all.data.state.value,
+      });
+    });
+
+    styles_ = `
             border-width: ${all.data.state.styles?.border_width};
             border-radius: ${all.data.state.styles?.border_radius};
             padding: ${all.data.state.styles?.padding};
@@ -31,22 +33,25 @@
             color: ${all.data.state.styles?.color};
             border-color: ${all.data.state.styles?.border_color};
             text-align: ${all.data.state.styles?.text_align};
+            margin: ${all.data.state.styles?.margin};
+
         `;
-        //   console.log(drag_enter);
-    });
+    //   console.log(drag_enter);
+  });
 </script>
 
 <p
-    style={styles_}
-    class="component"
-    id={tag}
-    draggable="true"
-    on:drag={() => all.dispatch('dragEventOnBoard', { ...all.data })}
-    on:dragenter={() => (drag_enter = true)}
-    on:dragleave={() => (drag_enter = false)}
-    class:border-t={drag_enter}
-    class:border-t-blue-400={drag_enter}
-    data-type="component"
+  style={styles_}
+  class={all.draggable && drag_enter && "component"}
+  id={tag}
+  role="alert"
+  draggable={all.draggable}
+  on:drag={() => all.dispatch("dragEventOnBoard", { ...all.data })}
+  on:dragenter={() => (drag_enter = true)}
+  on:dragleave={() => (drag_enter = false)}
+  class:border-t={all.draggable && drag_enter}
+  class:border-t-blue-400={all.draggable && drag_enter}
+  data-type="component"
 >
-    {all.data.state.value}
+  {all.data.state.value}
 </p>

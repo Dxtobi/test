@@ -1,11 +1,21 @@
 import { readable } from "svelte/store";
 import Input from "../../routes/formbuilder/components/inputs/input.svelte";
+import Button from "../../routes/formbuilder/components/inputs/button.svelte";
+import Dropdown from "../../routes/formbuilder/components/inputs/dropdown.svelte";
+import Textarea from "../../routes/formbuilder/components/inputs/textarea.svelte";
+import Switch from "../../routes/formbuilder/components/inputs/switch.svelte";
+import Sections from "../../routes/formbuilder/components/sections/Sections.svelte";
+import Text from "../../routes/formbuilder/components/texts/Text.svelte";
+import Multiline from "../../routes/formbuilder/components/texts/Multiline.svelte";
+import Small from "../../routes/formbuilder/components/texts/Small.svelte";
+import Checkbox from "../../routes/formbuilder/components/inputs/checkbox.svelte";
 
 export const components = readable({
     layouts: [
         {
             name: 'Sections',
             icon: 'fluent:poll-horizontal-16-regular',
+            Component:Sections,
             state: {
                 id: '',
                 styles: {
@@ -27,6 +37,7 @@ export const components = readable({
         {
             name: 'Text',
             icon: 'mingcute:text-line',
+            Component:Text,
             state: {
                 id: 'none',
                 component: '',
@@ -40,12 +51,15 @@ export const components = readable({
                     border_color: '',
                     background_color: '',
                     color: '',
+                    margin:'5px'
+
                 },
             }
         },
         {
             name: 'Multiline',
             icon: 'majesticons:text',
+            Component:Multiline,
             state: {
                 id: '',
                 component: '',
@@ -59,11 +73,13 @@ export const components = readable({
                     background_color: '',
                     color: '',
                     //text: 'center',
+                     margin:'5px'
                 },
             }
         }, {
             name: 'Label',
             icon: 'material-symbols:label-sharp',
+            Component:Small,
             state: {
                 id: '',
                 component: '',
@@ -78,6 +94,7 @@ export const components = readable({
                     color: '',
                     font_size: '13px',
                     text: 'center',
+                    margin:'5px'
                 },
             }
         },
@@ -123,6 +140,7 @@ export const components = readable({
         {
             name: 'Button',
             icon: 'teenyicons:button-outline',
+            Component:Button,
             state: {
                 value: 'Button',
                 type: 'submit',
@@ -131,16 +149,18 @@ export const components = readable({
                     border_width: '0px',
                     border_radius: '5px',
                     width: '200px',
-                    padding: '5px 10px',
+                    padding: '10px',
                     background_color: '#020b24',
                     border_color: '#fcff00',
                     color: '#ffffff',
+                    margin:'5px'
                 },
             }
         },
         {
             name: 'Input',
             icon: 'streamline:input-box',
+            Component:Input,
             state: {
                 name: 'text',
                 type: 'text',
@@ -151,19 +171,21 @@ export const components = readable({
                 styles: {
                     background_color: 'transparent',
                     border_width: '2px',
-                    border_color: 'gray',
+                    border_color: '#e3e3e3',
                     border_radius: '5px',
-                    padding: '5px 10px',
+                    padding: '10px',
                     color: 'inherit',
-                    width: 'auto'
+                    width: 'auto',
+                    margin:'5px'
                 },
             }
         },
         {
             name: 'Phone',
             icon: 'streamline:input-box',
+            Component:Input,
             state: {
-                name: 'text',
+                name: 'phone    ',
                 type: 'tel',
                 id: '',
                 value: '',
@@ -172,19 +194,21 @@ export const components = readable({
                 styles: {
                     background_color: 'transparent',
                     border_width: '2px',
-                    border_color: 'gray',
+                    border_color: '#e3e3e3',
                     border_radius: '5px',
-                    padding: '5px 10px',
+                    padding: '10px',
                     color: 'inherit',
-                    width: 'auto'
+                    width: 'auto',
+                    margin:'5px'
                 },
             }
         },
         {
             name: 'Number',
             icon: 'tabler:number-123',
+            Component:Input,
             state: {
-                name: 'text',
+                name: 'number',
                 type: 'text',
                 id: '',
                 value: '',
@@ -193,19 +217,21 @@ export const components = readable({
                 styles: {
                     background_color: 'transparent',
                     border_width: '2px',
-                    border_color: 'gray',
+                    border_color: '#e3e3e3',
                     border_radius: '5px',
-                    padding: '5px 10px',
+                    padding: '10px',
                     color: 'inherit',
-                    width: 'auto'
+                     width: 'auto',
+                    margin:'5px'
                 },
             }
         },
         {
             name: 'Switch',
+            Component:Switch,
             icon: 'iconoir:switch-on',
             state: {
-                name: 'text',
+                name: 'switch',
                 type: 'switch',
                 id: '',
                 value: '',
@@ -217,6 +243,7 @@ export const components = readable({
         {
             name: 'Dropdown',
             icon: 'radix-icons:dropdown-menu',
+            Component:Dropdown,
             state: {
                 name: 'dropdown',
                 type: 'text',
@@ -224,36 +251,45 @@ export const components = readable({
                 value: '',
                 placeholder: '123',
                 required: true,
-                options: [],
+                props: {
+                    options: ['Option 1', 'Option 2', 'Option 3'],
+                    selected: 'Option 1',
+                    label: 'Choose a value'
+                  },
                 styles: {
                     background_color: 'transparent',
-                    border_width: '2px',
-                    border_color: 'gray',
+                    border_width: '0px',
+                    border_color: '#e3e3e3',
                     border_radius: '5px',
-                    padding: '5px 10px',
+                    padding: '10px',
                     color: 'inherit',
-                    width: 'auto'
+                    width: 'auto',
+                    margin:'5px'
                 },
             }
         },
         {
             name: 'checkbox',
             icon: "mingcute:checkbox-fill",
+            Component:Checkbox,
             state: {
-                name: 'text',
-                type: 'text',
+                name: 'checkbox',
+                type: 'checkbox',
                 id: '',
-                value: '',
-                placeholder: '123',
+                value: true,
+                placeholder: 'Test',
                 required: true,
                 styles: {
-                    background_color: 'transparent',
-                    border_width: '2px',
-                    border_color: 'gray',
+                    background_color: '#ffffff00',
+                    border_width: '0px',
+                    border_color: '#fcff00',
                     border_radius: '5px',
-                    padding: '5px 10px',
+                    padding: '10px',
                     color: 'inherit',
-                    width: 'auto'
+                    width: 'auto',
+                    height: 'auto',
+                    label:'Check Me Out'
+
                 },
             }
         },
@@ -264,6 +300,7 @@ export const components = readable({
         {
             name: 'Textarea',
             icon: 'bi:textarea-resize',
+            Component:Textarea,
             state: {
                 name: 'textarea',
                 type: 'text',
@@ -273,16 +310,19 @@ export const components = readable({
                 styles: {
                     background_color: 'transparent',
                     border_width: '2px',
-                    border_color: 'gray',
+                    border_color: '#e3e3e3',
                     border_radius: '5px',
-                    padding: '5px 10px',
+                    padding: '10px',
                     color: 'inherit',
+                    margin:'5px'
+
                 },
             }
         },
         {
             name: 'Date',
             icon: 'fluent-mdl2:date-time',
+            Component:Input,
             state: {
                 name: 'date',
                 type: 'date',
@@ -292,10 +332,13 @@ export const components = readable({
                 styles: {
                     background_color: 'transparent',
                     border_width: '2px',
-                    border_color: 'gray',
+                    border_color: '#e3e3e3',
                     border_radius: '10px',
-                    padding: '5px 10px',
+                    padding: '10px',
                     color: 'inherit',
+                     width: 'auto',
+                    margin:'5px'
+
                 },
             }
         },
@@ -311,7 +354,7 @@ export const components = readable({
         //     border_width: '2px',
         //     border_color: 'black',
         //     border_radius: '10px',
-        //     padding: '5px 10px',
+        //     padding: '10px',
         //     color: 'black',
         // },
         //     }
